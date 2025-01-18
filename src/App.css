@@ -1,0 +1,6 @@
+.app{
+  background-image: url(../public/images/bg4.jpg); /* Correct path for public folder */
+  background-size:cover; /* Ensures the image covers the entire viewport */
+  background-attachment: fixed; /* Fixes the background while scrolling */
+  background-position: center; /* Centers the background image */
+}
