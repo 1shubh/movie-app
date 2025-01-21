@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import useFetchData from "./usefetchData";
-import { fetchMovieDetails } from "./fetchMovies";
+import useFetchData from "../usefetchData";
+import { fetchMovieDetails } from "../fetchMovies";
 import { useNavigate } from "react-router-dom";
-import { MovieSkeletonCard } from "./components/MovieSkeletonCard";
+import { MovieSkeletonCard } from "../components/MovieSkeletonCard";
 
 export const Home = () => {
   const { data, loading, error } = useFetchData("content");
@@ -12,15 +12,29 @@ export const Home = () => {
 
   useEffect(() => {
     const fetchMoviesData = async () => {
-      if (!data || data.length === 0) return;
-
+      if (!data || data.length === 0) {
+        setMovies([]); // Set movies to an empty array if data is empty
+        setIsLoading(false); // Set loading state to false
+        return;
+      }
       const results = await Promise.all(
         data.map(async (movie) => {
           try {
-            const details = await fetchMovieDetails(movie?.movieId, setIsLoading);
+            const details = await fetchMovieDetails(
+              movie?.movieId,
+              setIsLoading,
+              (movieDetails) => {
+                // Process the movie details here, such as storing in state or other actions
+              },
+              movie?.type, // Pass type as part of the fetch call
+              movie?.season
+            );
             return details ? { ...movie, tmdbDetails: details } : movie;
           } catch (err) {
-            console.error(`Error fetching movie details: ${movie?.movieId}`, err);
+            console.error(
+              `Error fetching movie details: ${movie?.movieId}`,
+              err
+            );
             return movie;
           }
         })
@@ -28,29 +42,31 @@ export const Home = () => {
 
       // Sort movies by release_date (latest first)
       const sortedMovies = results.sort((a, b) => {
-        const dateA = new Date(a.tmdbDetails?.release_date || "1970-01-01");
-        const dateB = new Date(b.tmdbDetails?.release_date || "1970-01-01");
+        const dateA = new Date(
+          a.tmdbDetails?.release_date || a.tmdbDetails?.air_date || "1970-01-01"
+        );
+        const dateB = new Date(
+          b.tmdbDetails?.release_date || b.tmdbDetails?.air_date || "1970-01-01"
+        );
         return dateB - dateA; // Sort descending
       });
-
       setMovies(sortedMovies);
       setIsLoading(false);
     };
-
     fetchMoviesData();
   }, [data]);
 
   const handleRoute = (movieId) => {
-    navigate(`watch/${movieId}`);
+    navigate(`/watch/${movieId}`);
   };
 
-  if (isLoading) return <MovieSkeletonCard />;
+  if (isLoading || loading) return <MovieSkeletonCard />;
   if (error) return <div>Error: {error.message}</div>;
 
   return (
     <div className="mt-5 w-[80%] m-auto">
-      <p className="text-xl font-NBold text-white">New Release</p>
-      <div className="grid grid-cols-6 gap-5">
+      {/* <p className="text-xl font-NBold text-white">New Release</p> */}
+      <div className="grid grid-cols-6 lg:grid-cols-4 gap-5">
         {movies.map((movie) => (
           <div
             key={movie.movieId}
@@ -66,7 +82,6 @@ export const Home = () => {
                 }
                 alt={movie.title || "Movie Poster"}
                 className="w-full rounded-t-xl"
-                
               />
             </div>
             <p className="text-white font-NBold text-center">{movie.title}</p>

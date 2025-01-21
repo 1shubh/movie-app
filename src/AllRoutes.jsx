@@ -1,12 +1,14 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Watch } from "./Watch";
-import { Home } from "./Home";
+import { Watch } from "./pages/Watch";
+import { Home } from "./pages/Home";
+import { Category } from "./pages/category";
 export const AllRoutes = () => {
   return (
     <Routes>
       <Route element={<Home />} path="/" />
       <Route element={<Watch />} path="/watch/:movieId" />
+      <Route element={<Category/>} path="/category/:id"/>
     </Routes>
   );
 };

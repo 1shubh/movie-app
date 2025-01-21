@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useFetchData from "./usefetchData";
-import { fetchMovieDetails } from "./fetchMovies";
-import CircularProgress from "./components/CircularProgress";
+import useFetchData from "../usefetchData";
+import { fetchMovieDetails } from "../fetchMovies";
+import CircularProgress from "../components/CircularProgress";
 import { Button } from "@chakra-ui/react";
 
 export const Watch = () => {
@@ -16,9 +16,18 @@ export const Watch = () => {
     const remainingMinutes = minutes % 60; // Get the remaining minutes
     return `${hours}h ${remainingMinutes}m`;
   };
+
+  console.log(data);
+
   useEffect(() => {
-    fetchMovieDetails(params.movieId, setIsLoading, setMovie);
-  }, []);
+    fetchMovieDetails(
+      data?.movieId,
+      setIsLoading,
+      setMovie,
+      data?.type,
+      data?.season
+    );
+  }, [data]);
 
   console.log(movie);
 
@@ -47,7 +56,7 @@ export const Watch = () => {
             <p className="text-2xl font-NBold">{movie.title}</p>
             {/* details */}
             <div className="flex font-NRegular gap-5">
-              <p>{movie.release_date}</p>
+              <p>{movie.release_date || movie.air_date}</p>
               <div className="flex items-center gap-2">
                 {movie?.genres?.map((ele, i) => {
                   return <p key={i}>{ele.name}</p>;
