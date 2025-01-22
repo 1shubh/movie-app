@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetchData from "../usefetchData";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { IoMenu } from "react-icons/io5";
 import { NavMenu } from "./NavMenu";
 import { Input } from "@chakra-ui/react";
@@ -10,8 +10,20 @@ import { InputGroup } from "./ui/input-group";
 export const Navbar = () => {
   const { data, loading, error } = useFetchData("categories");
   const navigate = useNavigate();
-
+  const location = useLocation();
   const [menu, setmenu] = useState(false);
+  const [activeCategory, setActiveCategory] = useState(null); // Track active category
+
+  const handleCategoryClick = (id) => {
+    setActiveCategory(id); // Set the clicked category as active
+    navigate(`/category/${id}`); // Navigate to the category
+  };
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setActiveCategory(null);
+    }
+  }, [location]);
 
   return (
     <>
@@ -44,11 +56,14 @@ export const Navbar = () => {
       </div>
       <div className="w-[80%] xl:w-[95%] m-auto grid grid-cols-6 xl:grid-cols-5 lg:hidden gap-5 mt-5">
         {data.map((ele, i) => {
+          const isActive = activeCategory === ele.id; // Check if the button is active
           return (
             <button
               key={i}
-              className="text-white font-NRegular cursor-pointer px-2 hover:text-secondary border rounded-xl py-2"
-              onClick={() => navigate(`/category/${ele.id}`)}
+              className={`text-white font-NRegular cursor-pointer px-2 hover:text-secondary border rounded-xl py-2 ${
+                isActive ? "border-secondary text-secondary" : "bg-transparent"
+              }`} // Add conditional classes
+              onClick={() => handleCategoryClick(ele.id)}
             >
               {ele.name}
             </button>
