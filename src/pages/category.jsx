@@ -73,7 +73,7 @@ export const Category = () => {
   if (isLoading || loading) return <MovieSkeletonCard />;
   if (error)
     return (
-      <div>
+      <div className="h-[90vh]">
         <p className="text-center mt-10 text-xl text-white font-NBold">
           Sorry! Not found
         </p>
@@ -81,12 +81,12 @@ export const Category = () => {
     );
 
   return (
-    <div className="mt-5 w-[80%] m-auto">
+    <div className="mt-5 w-[80%] h-[100vh] m-auto">
       {!categoriesLoading && (
         <p className="text-xl font-NBold text-white">{category.name}</p>
       )}
 
-      <div className="grid grid-cols-6 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-5 sm:grid-cols-3 xs:grid-cols-2 sm:w-[95%] gap-5">
         {movies.map((movie) => (
           <div
             key={movie.movieId}

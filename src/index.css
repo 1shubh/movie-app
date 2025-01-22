@@ -6,10 +6,12 @@ body {
   padding: 0;
   margin: 0;
   /* background-color: black; */
-  background-image: url(../public/images/bg4.jpg); /* Correct path for public folder */
+  background-image: url(../public/images/bg3.jpg); /* Correct path for public folder */
   background-size:cover; /* Ensures the image covers the entire viewport */
   background-attachment: fixed; /* Fixes the background while scrolling */
   background-position: center;
+  /* filter: brightness(50%) */
+ 
 }
 
 @font-face{
@@ -34,4 +36,8 @@ body {
   font-family: "NRegular";
   src: local("NDKernRegular"),
   url(./assets/fonts/NDKernRegular.woff) format("woff");
+}
+
+.app{
+  background-color: rgba(0, 0, 0, 0.402);
 }

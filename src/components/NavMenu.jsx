@@ -13,23 +13,26 @@ import {
 import { Button } from "@chakra-ui/react";
 import { IoMenu } from "react-icons/io5";
 
-export const NavMenu = () => {
+export const NavMenu = ({data}) => {
   const [open, setOpen] = useState(false);
   return (
     <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
       <DrawerBackdrop />
       <DrawerTrigger asChild>
-        <IoMenu size={30} />
+        <IoMenu size={30} color="white"/>
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Drawer Title</DrawerTitle>
+          <DrawerTitle>Movie Time</DrawerTitle>
         </DrawerHeader>
         <DrawerBody>
-          <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
+          <div className="grid gap-4">
+             {
+              data.map((ele,i)=>{
+                return <button key={i} className="font-NRegular cursor-pointer px-2 hover:text-secondary border rounded-xl py-2">{ele.name}</button>
+              })
+             }
+          </div>
         </DrawerBody>
 
         <DrawerCloseTrigger />

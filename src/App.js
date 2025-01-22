@@ -4,13 +4,14 @@ import "./App.css";
 import { AllRoutes } from "./AllRoutes";
 import { Navbar } from "./components/Navbar";
 import backgroundImage from "./assets/images/bg.jpg";
+import { Footer } from "./components/Footer";
 
 function App() {
   return (
-    
-    <div className={``}>
+    <div className="app">
       <Navbar />
       <AllRoutes />
+      <Footer />
     </div>
   );
 }

@@ -14,7 +14,7 @@ export const Home = () => {
     const fetchMoviesData = async () => {
       if (!data || data.length === 0) {
         setMovies([]); // Set movies to an empty array if data is empty
-        setIsLoading(false); // Set loading state to false
+        // setIsLoading(false); // Set loading state to false
         return;
       }
       const results = await Promise.all(
@@ -60,13 +60,13 @@ export const Home = () => {
     navigate(`/watch/${movieId}`);
   };
 
-  if (isLoading || loading) return <MovieSkeletonCard />;
-  if (error) return <div>Error: {error.message}</div>;
+  if (isLoading) return <MovieSkeletonCard />;
+  if (error) return <div className="h-[100vh]">Error: {error.message}</div>;
 
   return (
-    <div className="mt-5 w-[80%] m-auto">
+    <div className="py-5 w-[80%] xl:w-[90%] min-h-[100vh] m-auto">
       {/* <p className="text-xl font-NBold text-white">New Release</p> */}
-      <div className="grid grid-cols-6 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 sm:w-[95%] gap-5">
         {movies.map((movie) => (
           <div
             key={movie.movieId}

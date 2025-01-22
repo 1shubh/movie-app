@@ -15,8 +15,8 @@ module.exports = {
         NRegular: ["NRegular"],
       },
       colors: {
-        primary: "#be9f56",
-        secondary: "#899199",
+        primary: "#5c4500",
+        secondary: "#ffbc00",
         bgcolor:"#ebebec",
         third: "#938d82",
         fourth: "#eae3d9",
