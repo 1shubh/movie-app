@@ -3,6 +3,7 @@ import useFetchData from "../usefetchData";
 import { fetchMovieDetails } from "../fetchMovies";
 import { useNavigate } from "react-router-dom";
 import { MovieSkeletonCard } from "../components/MovieSkeletonCard";
+import { MovieCard } from "../components/MovieCard";
 
 export const Home = () => {
   const { data, loading, error } = useFetchData("content");
@@ -56,10 +57,6 @@ export const Home = () => {
     fetchMoviesData();
   }, [data]);
 
-  const handleRoute = (movieId) => {
-    navigate(`/watch/${movieId}`);
-  };
-
   if (isLoading) return <MovieSkeletonCard />;
   if (error) return <div className="h-[100vh]">Error: {error.message}</div>;
 
@@ -68,24 +65,7 @@ export const Home = () => {
       {/* <p className="text-xl font-NBold text-white">New Release</p> */}
       <div className="grid grid-cols-6 xl:grid-cols-5 lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-3 xs:grid-cols-2 sm:w-[95%] gap-5">
         {movies.map((movie) => (
-          <div
-            key={movie.movieId}
-            onClick={() => handleRoute(movie.movieId)}
-            className="cursor-pointer bg-black rounded-xl"
-          >
-            <div className="m-auto">
-              <img
-                src={
-                  movie.tmdbDetails?.poster_path
-                    ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${movie.tmdbDetails?.poster_path}`
-                    : "/fallback-image.jpg"
-                }
-                alt={movie.title || "Movie Poster"}
-                className="w-full rounded-t-xl"
-              />
-            </div>
-            <p className="text-white font-NBold text-center">{movie.title}</p>
-          </div>
+          <MovieCard {...movie} />
         ))}
       </div>
     </div>

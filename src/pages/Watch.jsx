@@ -50,8 +50,10 @@ export const Watch = () => {
     );
   if (error) return <p>Error loading video</p>;
   return (
-    <div className={`mt-5 min-h-[100vh] watchpage`}>
-      <div className={`w-[80%] lg:w-[90%] m-auto rounded-xl min-h-[500px] lg:h-full relative`}>
+    <div className={`mt-5 min-h-[100vh] sm:h-fit watchpage`}>
+      <div
+        className={`w-[80%] lg:w-[90%] m-auto rounded-xl min-h-[500px] xs:h-full lg:h-full relative`}
+      >
         {movie.backdrop_path || webseries.backdrop_path ? (
           <img
             src={`https://image.tmdb.org/t/p/w1280/${
