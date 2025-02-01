@@ -12,9 +12,11 @@ import {
 } from "./ui/drawer";
 import { Button } from "@chakra-ui/react";
 import { IoMenu } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 export const NavMenu = ({ data }) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
   return (
     <DrawerRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
       <DrawerBackdrop />
@@ -23,7 +25,9 @@ export const NavMenu = ({ data }) => {
       </DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle>Movie Time</DrawerTitle>
+          <div className="w-[40%]">
+            <img src="/images/logo2.png" alt="logo" className="w-full" />
+          </div>
         </DrawerHeader>
         <DrawerBody>
           <div className="grid gap-4">
@@ -32,6 +36,7 @@ export const NavMenu = ({ data }) => {
                 <button
                   key={i}
                   className="font-NRegular cursor-pointer px-2 hover:text-secondary border rounded-xl py-2"
+                  onClick={() => navigate(`/category/${ele.id}`)}
                 >
                   {ele.name}
                 </button>
@@ -39,7 +44,6 @@ export const NavMenu = ({ data }) => {
             })}
           </div>
         </DrawerBody>
-
         <DrawerCloseTrigger />
       </DrawerContent>
     </DrawerRoot>

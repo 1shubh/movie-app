@@ -7,6 +7,7 @@ import { Button } from "@chakra-ui/react";
 import { fetchSeriesDetails } from "../lib/fetchWebseries";
 import { WatchLoading } from "../components/WatchLoading";
 import { FaPlayCircle } from "react-icons/fa";
+import { Helmet } from "react-helmet"; // Import Helmet
 
 export const Watch = () => {
   const navigate = useNavigate();
@@ -42,7 +43,7 @@ export const Watch = () => {
   const percentage = ((movie.vote_average / 10) * 100).toFixed(2);
   const webseriespercentage = ((webseries.vote_average / 10) * 100).toFixed(2);
 
-  if (isLoading)
+  if (isLoading || loading)
     return (
       <div className="w-[80%] h-[100vh] m-auto">
         <WatchLoading />
@@ -50,9 +51,42 @@ export const Watch = () => {
     );
   if (error) return <p>Error loading video</p>;
   return (
-    <div className={`mt-5 min-h-[100vh] sm:h-fit watchpage`}>
+    <div className={`mt-5 lg:mt-2 min-h-[100vh] watchpage`}>
+      <Helmet>
+        <title>{`${movie.title || webseries.name} - Watch Online full movie`}</title>
+        <meta
+          name="description"
+          content={
+            movie.overview ||
+            webseries.overview ||
+            "Watch this movie full or series full online."
+          }
+        />
+        <meta
+          name="keywords"
+          content={`${movie.title}, ${movie.genres
+            ?.map((genre) => genre.name)
+            .join(", ")}, movie, watch`}
+        />
+        <meta property="og:title" content={movie.title || webseries.name} />
+        <meta
+          property="og:description"
+          content={movie.overview || webseries.overview}
+        />
+        <meta
+          property="og:image"
+          content={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${
+            movie.poster_path || webseries.poster_path
+          }`}
+        />
+        <meta
+          property="og:url"
+          content={`https://yourdomain.com/watch/${params.movieId}`}
+        />
+        <meta name="robots" content="index, follow" />
+      </Helmet>
       <div
-        className={`w-[80%] lg:w-[90%] m-auto rounded-xl min-h-[500px] xs:h-full lg:h-full relative`}
+        className={`w-[80%] lg:w-[90%] m-auto rounded-xl min-h-[500px] xs:h-fit lg:h-fit relative`}
       >
         {movie.backdrop_path || webseries.backdrop_path ? (
           <img
@@ -66,16 +100,16 @@ export const Watch = () => {
           <></>
         )}
         <p className="text-center font-NBold text-xl absolute top-0 left-0 right-0 bottom-0 m-auto mt-5 text-white">
-          Download or Watch {movie.title || webseries.name}{" "}
+          Download or Watch full {movie.title || webseries.name}{" "}
           {data.season && `Season ${data.season}`} 720p HD
         </p>
-        <div className="w-full h-full absolute top-0 right-0 rounded-xl flex lg:grid items-center gap-10 p-10 xs:p-2 xs:mt-10">
+        <div className="w-full h-full absolute top-0 right-0 rounded-xl lg:relative flex lg:grid items-center gap-10 p-10 xs:p-2 ">
           {movie.backdrop_path || webseries.backdrop_path ? (
-            <div className="w-[40%] lg:w-[30%] sm:w-[40%] xs:w-[65%] lg:mt-5 lg:m-auto rounded-xl">
+            <div className="w-[30%] lg:w-[30%] sm:w-[40%] xs:w-[65%] lg:mt-10 lg:m-auto rounded-xl overflow-hidden">
               <img
                 src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
                 alt="poster"
-                className="w-full rounded-xl"
+                className="w-full h-full object-cover rounded-xl"
               />
             </div>
           ) : (

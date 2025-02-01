@@ -74,7 +74,7 @@ export const Category = () => {
   if (isLoading || loading) return <MovieSkeletonCard />;
   if (error)
     return (
-      <div className="h-[90vh]">
+      <div className="min-h-[90vh]">
         <p className="text-center mt-10 text-xl text-white font-NBold">
           Sorry! Not found
         </p>
@@ -82,7 +82,7 @@ export const Category = () => {
     );
 
   return (
-    <div className="mt-5 w-[80%] h-[100vh] m-auto">
+    <div className="mt-5 w-[80%] min-h-[100vh] m-auto">
       {!categoriesLoading && (
         <p className="text-xl font-NBold text-white">{category.name}</p>
       )}

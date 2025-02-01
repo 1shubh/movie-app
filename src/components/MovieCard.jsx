@@ -1,11 +1,18 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-export const MovieCard = ({ movieId, tmdbDetails, title }) => {
+export const MovieCard = ({ movieId, tmdbDetails, title, _id }) => {
+  const location = useLocation();
+  console.log(location)
   const navigate = useNavigate();
   const handleRoute = (movieId) => {
-    navigate(`/watch/${movieId}`);
+    if (location.pathname === "/") {
+      navigate(`/watch/${movieId}`);
+    } else if (location.pathname === "/edit-movie") {
+      navigate(`/edit-movie/${movieId}`);
+    }
   };
+  
   return (
     <div
       key={movieId}
