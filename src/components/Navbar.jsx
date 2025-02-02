@@ -233,11 +233,11 @@ export const Navbar = () => {
                 setIsSearching(false);
               }}
             >
-              <p className="text-gray-800">{movie.title}</p>
+              <p className="text-black font-NRegular text-xl">{movie.title}</p>
             </div>
           ))}
           {isSearching && filteredMovies.length === 0 && (
-            <div className="px-4 py-2 text-gray-500 bg-white">
+            <div className="px-4 py-2 text-black bg-white">
               No results found
             </div>
           )}

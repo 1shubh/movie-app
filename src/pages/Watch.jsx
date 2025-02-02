@@ -16,6 +16,7 @@ export const Watch = () => {
   const [webseries, setWebseries] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const { data, loading, error } = useFetchData(`content/${params?.movieId}`);
+
   const convertMinutesToTime = (minutes) => {
     const hours = Math.floor(minutes / 60); // Get the whole hours
     const remainingMinutes = minutes % 60; // Get the remaining minutes
@@ -38,14 +39,14 @@ export const Watch = () => {
     }
   }, [data]);
 
-  // console.log(webseries);
+  // console.log(movie);
 
   const percentage = ((movie.vote_average / 10) * 100).toFixed(2);
   const webseriespercentage = ((webseries.vote_average / 10) * 100).toFixed(2);
 
   if (isLoading || loading)
     return (
-      <div className="w-[80%] h-[100vh] m-auto">
+      <div className="w-[80%] h-[100vh] m-auto mt-5">
         <WatchLoading />
       </div>
     );
@@ -53,7 +54,7 @@ export const Watch = () => {
   return (
     <div className={`mt-5 lg:mt-2 min-h-[100vh] watchpage`}>
       <Helmet>
-        <title>{`${movie.title || webseries.name} - Watch Online full movie`}</title>
+        <title>{`${data.title} - Watch Online full movie`}</title>
         <meta
           name="description"
           content={
@@ -94,22 +95,22 @@ export const Watch = () => {
               movie.backdrop_path || webseries.backdrop_path
             }`}
             alt=""
-            className="w-full h-full object-cover rounded-xl opacity-1 lg:hidden"
+            className="w-full h-full object-cover rounded-xl opacity-1 lg:hidden blur-[2px] brightness-50"
           />
         ) : (
           <></>
         )}
-        <p className="text-center font-NBold text-xl absolute top-0 left-0 right-0 bottom-0 m-auto mt-5 text-white">
-          Download or Watch full {movie.title || webseries.name}{" "}
-          {data.season && `Season ${data.season}`} 720p HD
+        <p className="text-center font-NBold text-xl absolute lg:relative top-0 left-0 right-0 bottom-0 m-auto mt-5 text-white">
+          Download or Watch {data.title}{" "}
+          {data.season && `Season ${data.season}`} full  720p HD
         </p>
         <div className="w-full h-full absolute top-0 right-0 rounded-xl lg:relative flex lg:grid items-center gap-10 p-10 xs:p-2 ">
           {movie.backdrop_path || webseries.backdrop_path ? (
-            <div className="w-[30%] lg:w-[30%] sm:w-[40%] xs:w-[65%] lg:mt-10 lg:m-auto rounded-xl overflow-hidden">
+            <div className="w-[30%] lg:w-[30%] sm:w-[40%] xs:w-[65%] lg:mt-0 lg:m-auto rounded-xl overflow-hidden">
               <img
                 src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
                 alt="poster"
-                className="w-full h-full object-cover rounded-xl"
+                className="w-full h-full object-cover rounded-xl drop-shadow-xl"
               />
             </div>
           ) : (
@@ -121,9 +122,9 @@ export const Watch = () => {
               {data.season && `Season ${data.season}`}
             </p>
             {/* details */}
-            <div className="flex font-NRegular gap-5">
+            <div className="flex flex-wrap font-NRegular gap-5">
               <p>{movie.release_date || movie.air_date}</p>
-              <div className="flex items-center gap-2">
+              <div className="flex items-center flex-wrap gap-2">
                 {data.type === 2
                   ? webseries?.genres?.map((ele, i) => {
                       return <p key={i}>{ele.name}</p>;
@@ -162,7 +163,7 @@ export const Watch = () => {
             {movie.tagline && (
               <p className="font-NBold text-xl mt-2">Overview</p>
             )}
-            <p className="font-NRegular">{movie.overview}</p>
+            <p className="font-NRegular">{data.type === 1 ? movie.overview : webseries.overview}</p>
           </div>
         </div>
       </div>

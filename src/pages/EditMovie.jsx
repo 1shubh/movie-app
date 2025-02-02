@@ -13,48 +13,54 @@ export const EditMovie = () => {
   useEffect(() => {
     const fetchMoviesData = async () => {
       if (!data || data.length === 0) {
-        setMovies([]); // Set movies to an empty array if data is empty
-        // setIsLoading(false); // Set loading state to false
+        setMovies([]);
         return;
       }
+
       const results = await Promise.all(
         data.map(async (movie) => {
           try {
             const details = await fetchMovieDetails(
               movie?.movieId,
               setIsLoading,
-              (movieDetails) => {
-                // Process the movie details here, such as storing in state or other actions
-              },
-              movie?.type, // Pass type as part of the fetch call
-              movie?.season
+              null,
+              movie?.type,
+              movie?.season,
+              movie?.episode
             );
+
             return details ? { ...movie, tmdbDetails: details } : movie;
           } catch (err) {
-            console.error(
-              `Error fetching movie details: ${movie?.movieId}`,
-              err
-            );
+            console.error(`Error fetching movie details: ${movie?.movieId}`, err);
             return movie;
           }
         })
       );
 
-      // Sort movies by release_date (latest first)
+      // Sorting Logic
       const sortedMovies = results.sort((a, b) => {
         const dateA = new Date(
-          a.tmdbDetails?.release_date || a.tmdbDetails?.air_date || "1970-01-01"
+          a.tmdbDetails?.episodeDetails?.air_date ||  // Use episode air date if available
+          a.tmdbDetails?.release_date || 
+          a.tmdbDetails?.air_date || 
+          "1970-01-01"
         );
         const dateB = new Date(
-          b.tmdbDetails?.release_date || b.tmdbDetails?.air_date || "1970-01-01"
+          b.tmdbDetails?.episodeDetails?.air_date ||  // Use episode air date if available
+          b.tmdbDetails?.release_date || 
+          b.tmdbDetails?.air_date || 
+          "1970-01-01"
         );
-        return dateB - dateA; // Sort descending
+        return dateB - dateA; // Sort descending (latest first)
       });
+
       setMovies(sortedMovies);
       setIsLoading(false);
     };
+
     fetchMoviesData();
   }, [data]);
+
 
   if (isLoading) return <MovieSkeletonCard />;
   if (error) return <div className="h-[100vh]">Error: {error.message}</div>;

@@ -10,6 +10,7 @@ export const AddMovie = () => {
     title: "",
     type: "",
     season: "",
+    episode: "", // Added episode number
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
@@ -19,7 +20,9 @@ export const AddMovie = () => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
       ...prevData,
-      [name]: ["categoryId", "type", "movieId", "season"].includes(name)
+      [name]: ["categoryId", "type", "movieId", "season", "episode"].includes(
+        name
+      )
         ? Number(value)
         : value,
     }));
@@ -52,7 +55,8 @@ export const AddMovie = () => {
           videoUrl: "",
           title: "",
           type: "",
-          season: null,
+          season: "",
+          episode: "",
         });
       } else {
         const errorData = await response.json();
@@ -66,6 +70,7 @@ export const AddMovie = () => {
       setIsSubmitting(false);
     }
   };
+
   if (loading)
     return (
       <p className="text-center text-2xl font-NBold text-white">
@@ -158,6 +163,20 @@ export const AddMovie = () => {
               value={formData.season}
               onChange={handleInputChange}
               required={formData.type === 2}
+            />
+          </div>
+        )}
+        {formData.categoryId === 5 && formData.type === 2 && (
+          <div>
+            <p className="font-NRegular mt-4">Episode Number</p>
+            <input
+              placeholder="Episode Number"
+              className="border w-full p-2 rounded-xl"
+              type="number"
+              name="episode"
+              value={formData.episode}
+              onChange={handleInputChange}
+              required
             />
           </div>
         )}
