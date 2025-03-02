@@ -155,7 +155,7 @@ export const Navbar = () => {
         <></>
       ) : (
         <div className="w-[80%] xl:w-[95%] m-auto grid grid-cols-6 2xl:grid-cols-5 xl:grid-cols-5 lg:hidden gap-5 mt-5">
-          {subcategories.map((ele, i) => {
+          {/* {subcategories.map((ele, i) => {
             return (
               <div key={i} className="cursor-pointer">
                 <img
@@ -168,7 +168,7 @@ export const Navbar = () => {
                 </p>
               </div>
             );
-          })}
+          })} */}
         </div>
       )}
 

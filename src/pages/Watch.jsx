@@ -108,7 +108,7 @@ export const Watch = () => {
           {movie.backdrop_path || webseries.backdrop_path ? (
             <div className="w-[30%] lg:w-[30%] sm:w-[40%] xs:w-[65%] lg:mt-0 lg:m-auto rounded-xl overflow-hidden">
               <img
-                src={`https://image.tmdb.org/t/p/w600_and_h900_bestv2${movie.poster_path}`}
+                src={`https://image.tmdb.org/t/p/original/${movie.poster_path}`}
                 alt="poster"
                 className="w-full h-full object-cover rounded-xl drop-shadow-xl"
               />

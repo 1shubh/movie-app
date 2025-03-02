@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 export const MovieCard = ({ movieId, tmdbDetails, title, _id }) => {
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const navigate = useNavigate();
   const handleRoute = (movieId) => {
     if (location.pathname === "/") {
@@ -25,11 +25,12 @@ export const MovieCard = ({ movieId, tmdbDetails, title, _id }) => {
         <img
           src={
             tmdbDetails?.poster_path
-              ? `https://image.tmdb.org/t/p/w600_and_h900_bestv2/${tmdbDetails?.poster_path}`
+              ? `https://image.tmdb.org/t/p/original/${tmdbDetails?.poster_path}`
               : "./images/not-found.jpg"
           }
           alt={title || "Movie Poster"}
           className="w-full rounded-t-xl"
+          loading="lazy"
         />
       </div>
       <p className="text-white font-NRegular text-center mt-4 px-2">{title}</p>

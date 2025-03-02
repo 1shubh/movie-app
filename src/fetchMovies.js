@@ -1,6 +1,5 @@
 import axios from "axios";
 
-const API_KEY = process.env.REACT_APP_TMDB_API_KEY;
 
 export const fetchMovieDetails = async (
   movieId,
@@ -20,7 +19,7 @@ export const fetchMovieDetails = async (
       // Fetch Movie Details
       const movieResponse = await axios.get(
         `https://api.themoviedb.org/3/movie/${movieId}`,
-        { params: { api_key: API_KEY } }
+        { params: { api_key: process.env.REACT_APP_TMDB_API_KEY } }
       );
 
       setMovie && setMovie(movieResponse.data);
@@ -30,7 +29,7 @@ export const fetchMovieDetails = async (
       // Fetch Season Data
       const seasonResponse = await axios.get(
         `https://api.themoviedb.org/3/tv/${movieId}/season/${season}`,
-        { params: { api_key: API_KEY } }
+        { params: { api_key: process.env.REACT_APP_TMDB_API_KEY } }
       );
 
       seasonData = seasonResponse.data;
@@ -39,7 +38,7 @@ export const fetchMovieDetails = async (
         // Fetch Episode Data
         const episodeResponse = await axios.get(
           `https://api.themoviedb.org/3/tv/${movieId}/season/${season}/episode/${episode}`,
-          { params: { api_key: API_KEY } }
+          { params: { api_key: process.env.REACT_APP_TMDB_API_KEY } }
         );
 
         episodeData = episodeResponse.data;
